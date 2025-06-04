@@ -22,7 +22,7 @@ We maintain and publish selected repositories covering:
 Visit our public landing page:  
 👉 [aau-underwater-robot-lab.github.io](https://aau-underwater-robot-lab.github.io)  
 Learn more about our research group:  
-🔗 [Offshore Drones and Robotics Group at AAU Energy](https://www.energy.aau.dk/research/offshore-drones-and-robotics)
+🔗 [Offshore Drones and Robotics Group at AAU Energy](https://www.energy.aau.dk/research/research-groups/robotics)
 
 ---
 Feel free to contribute, fork, or collaborate with us. We welcome open-source engagement in underwater technology and robotics.
