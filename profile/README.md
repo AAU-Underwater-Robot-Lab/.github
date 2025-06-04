@@ -17,7 +17,7 @@ We maintain and publish selected repositories covering:
 - Supporting tools for development and evaluation
 
 ## Contact
-<img src="https://aau-underwater-robot-lab.github.io/contact_email.png" alt="SubseaRG@energy.aau.dk">
+<img src="https://aau-underwater-robot-lab.github.io/assets/contact_email.png" alt="email">
 
 Visit our public landing page:  
 👉 [aau-underwater-robot-lab.github.io](https://aau-underwater-robot-lab.github.io)  
