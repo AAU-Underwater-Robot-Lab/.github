@@ -1,6 +1,6 @@
 # AAU Underwater Technology Group
 
-The **Underwater Technology Group** at AAU Energy, Aalborg University develops advanced systems for subsea robotics, sensing, and autonomy. We support inspection, monitoring, and intervention tasks in challenging underwater environments through applied research and open-source tool development.
+The **Underwater Technology Group** at AAU Energy, Aalborg University (Esbjerg Campus) develops advanced systems for subsea robotics, sensing, and autonomy. We support inspection, monitoring, and intervention tasks in challenging underwater environments through applied research and open-source tool development.
 
 ## Focus areas
 - Autonomous and remotely operated underwater vehicles (AUVs/ROVs)
@@ -18,10 +18,9 @@ We maintain and publish selected repositories covering:
 
 ## Contact
 <img src="https://aau-underwater-robot-lab.github.io/assets/contact_email.png" alt="email">
+Address: Niels Bohrs Vej 8, DK6700 Esbjerg, Denmark
 
-Visit our public landing page:  
-👉 [aau-underwater-robot-lab.github.io](https://aau-underwater-robot-lab.github.io)  
-Learn more about our research group:  
+Visit our public landing page and learn more about our research group:  
 🔗 [Underwater Technology group at AAU Energy](https://www.energy.aau.dk/research/research-groups/underwater-technology)
 
 ---
