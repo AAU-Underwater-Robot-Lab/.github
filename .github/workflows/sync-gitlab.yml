@@ -1,0 +1,68 @@
+name: Synchronize GitLab mirror
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # Every hour at minute 17
+    - cron: "17 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gitlab-mirror-sync
+  cancel-in-progress: false
+
+jobs:
+  synchronize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      GITLAB_REPOSITORY: https://gitlab.com/apl-ocean-engineering/oculus_sonar_driver.git
+      GITHUB_REPOSITORY: https://github.com/AAU-Underwater-Robot-Lab/oculus_sonar_driver.git
+      GITHUB_MIRROR_TOKEN: ${{ secrets.GITHUB_MIRROR_TOKEN }}
+
+    steps:
+      - name: Synchronize repository
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          MIRROR_DIRECTORY="${RUNNER_TEMP}/gitlab-mirror.git"
+          ASKPASS_SCRIPT="${RUNNER_TEMP}/github-askpass.sh"
+
+          cat > "${ASKPASS_SCRIPT}" <<'EOF'
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          case "${1:-}" in
+            *Username*)
+              printf '%s\n' "x-access-token"
+              ;;
+            *Password*)
+              printf '%s\n' "${GITHUB_MIRROR_TOKEN}"
+              ;;
+            *)
+              printf 'Unexpected credential prompt\n' >&2
+              exit 1
+              ;;
+          esac
+          EOF
+
+          chmod 700 "${ASKPASS_SCRIPT}"
+
+          export GIT_ASKPASS="${ASKPASS_SCRIPT}"
+          export GIT_TERMINAL_PROMPT=0
+
+          git clone \
+            --mirror \
+            "${GITLAB_REPOSITORY}" \
+            "${MIRROR_DIRECTORY}"
+
+          git \
+            -C "${MIRROR_DIRECTORY}" \
+            push \
+            --mirror \
+            "${GITHUB_REPOSITORY}"
