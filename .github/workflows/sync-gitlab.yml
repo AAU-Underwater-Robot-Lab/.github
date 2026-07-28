@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    # Every hour at minute 17
+    # Run once every hour at minute 17
     - cron: "17 * * * *"
 
 permissions:
@@ -16,16 +16,22 @@ concurrency:
 
 jobs:
   synchronize:
+    name: Synchronize GitLab repository
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     env:
-      GITLAB_REPOSITORY: https://gitlab.com/apl-ocean-engineering/oculus_sonar_driver.git
-      GITHUB_REPOSITORY: https://github.com/AAU-Underwater-Robot-Lab/oculus_sonar_driver.git
-      GITHUB_MIRROR_TOKEN: ${{ secrets.GITHUB_MIRROR_TOKEN }}
+      # Public GitLab source repository
+      GITLAB_REPOSITORY: https://gitlab.com/GITLAB_GROUP/GITLAB_REPOSITORY.git
+
+      # Separate GitHub destination repository
+      GITHUB_REPOSITORY: https://github.com/GITHUB_OWNER/GITHUB_REPOSITORY.git
+
+      # Fine grained GitHub token stored as an Actions secret
+      MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
 
     steps:
-      - name: Synchronize repository
+      - name: Clone GitLab and push to GitHub
         shell: bash
         run: |
           set -euo pipefail
@@ -33,19 +39,28 @@ jobs:
           MIRROR_DIRECTORY="${RUNNER_TEMP}/gitlab-mirror.git"
           ASKPASS_SCRIPT="${RUNNER_TEMP}/github-askpass.sh"
 
+          if [[ -z "${MIRROR_TOKEN:-}" ]]; then
+            echo "The MIRROR_TOKEN repository secret is missing."
+            exit 1
+          fi
+
+          rm -rf "${MIRROR_DIRECTORY}"
+
           cat > "${ASKPASS_SCRIPT}" <<'EOF'
           #!/usr/bin/env bash
           set -euo pipefail
 
-          case "${1:-}" in
+          prompt="${1:-}"
+
+          case "${prompt}" in
             *Username*)
               printf '%s\n' "x-access-token"
               ;;
             *Password*)
-              printf '%s\n' "${GITHUB_MIRROR_TOKEN}"
+              printf '%s\n' "${MIRROR_TOKEN}"
               ;;
             *)
-              printf 'Unexpected credential prompt\n' >&2
+              printf 'Unexpected Git credential prompt: %s\n' "${prompt}" >&2
               exit 1
               ;;
           esac
@@ -56,13 +71,19 @@ jobs:
           export GIT_ASKPASS="${ASKPASS_SCRIPT}"
           export GIT_TERMINAL_PROMPT=0
 
+          echo "Cloning public GitLab repository"
+
           git clone \
             --mirror \
             "${GITLAB_REPOSITORY}" \
             "${MIRROR_DIRECTORY}"
+
+          echo "Pushing mirror to GitHub"
 
           git \
             -C "${MIRROR_DIRECTORY}" \
             push \
             --mirror \
             "${GITHUB_REPOSITORY}"
+
+          echo "Repository synchronization completed"
