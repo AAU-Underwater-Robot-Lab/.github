@@ -22,10 +22,10 @@ jobs:
 
     env:
       # Public GitLab source repository
-      GITLAB_REPOSITORY: https://gitlab.com/GITLAB_GROUP/GITLAB_REPOSITORY.git
+      GITLAB_REPOSITORY: https://gitlab.com/apl-ocean-engineering/oculus_sonar_driver.git
 
       # Separate GitHub destination repository
-      GITHUB_REPOSITORY: https://github.com/GITHUB_OWNER/GITHUB_REPOSITORY.git
+      GITHUB_REPOSITORY: https://github.com/AAU-Underwater-Robot-Lab/oculus_sonar_driver.git
 
       # Fine grained GitHub token stored as an Actions secret
       MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
