@@ -5,9 +5,9 @@ The **Underwater Technology Group** at AAU Energy, Aalborg University (Esbjerg C
 
 ## Focus areas
 - Autonomous and remotely operated underwater vehicles (AUVs/ROVs)
+- Hydrodynamic modeling and vehicle control
 - Subsea perception using sonar, vision, and hyperspectral sensors
 - Synthetic dataset generation and AI-based segmentation
-- Hydrodynamic modeling and vehicle control
 - ROS2-based integration, simulation, and deployment
 
 ## Public repositories
