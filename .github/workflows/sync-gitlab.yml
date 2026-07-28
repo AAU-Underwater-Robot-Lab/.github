@@ -25,7 +25,7 @@ jobs:
       GITLAB_REPOSITORY: https://gitlab.com/apl-ocean-engineering/oculus_sonar_driver.git
 
       # Separate GitHub destination repository
-      GITHUB_REPOSITORY: https://github.com/AAU-Underwater-Robot-Lab/oculus_sonar_driver.git
+      MIRROR_DESTINATION: https://github.com/AAU-Underwater-Robot-Lab/oculus_sonar_driver.git
 
       # Fine grained GitHub token stored as an Actions secret
       MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
@@ -71,6 +71,9 @@ jobs:
           export GIT_ASKPASS="${ASKPASS_SCRIPT}"
           export GIT_TERMINAL_PROMPT=0
 
+          echo "Source: ${GITLAB_REPOSITORY}"
+          echo "Destination: ${MIRROR_DESTINATION}"
+
           echo "Cloning public GitLab repository"
 
           git clone \
@@ -84,6 +87,6 @@ jobs:
             -C "${MIRROR_DIRECTORY}" \
             push \
             --mirror \
-            "${GITHUB_REPOSITORY}"
+            "${MIRROR_DESTINATION}"
 
           echo "Repository synchronization completed"
